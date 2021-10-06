@@ -38,6 +38,10 @@ public class Expense {
 	private String vendor;
 	
 	@NotNull
+	@Size(min=2, max=255)
+	private String description;
+	
+	@NotNull
 	@Min(value=(long) 0.01, message="amount must be a positive number")
 	private double amount;
 	
@@ -46,12 +50,15 @@ public class Expense {
 	public Expense() {
 		
 	}
-	public Expense(String name, String vendor, double amount) {
+	public Expense(String name, String vendor, double amount, String description) {
 		this.name = name;
 		this.vendor = vendor;
 		this.amount = (double) amount;
+		this.description = description;
 		this.paid = false;
 	}
+	
+	
     @PrePersist
     protected void onCreate(){
         this.createdAt = new Date();
@@ -84,6 +91,36 @@ public class Expense {
 
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+	public boolean isPaid() {
+		return paid;
+	}
+	public void setPaid(boolean paid) {
+		this.paid = paid;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	

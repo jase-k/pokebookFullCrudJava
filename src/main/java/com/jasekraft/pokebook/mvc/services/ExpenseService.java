@@ -37,13 +37,14 @@ public class ExpenseService {
     	expRepo.deleteById(id);
     }
     
-    public Expense updateExpense(long id, String name, String vendor,  double amount) {
+    public Expense updateExpense(long id, String name, String vendor,  double amount, String description) {
     	Optional<Expense> optionalExpense = expRepo.findById(id);
     	if(optionalExpense.isPresent()) {
     		Expense expense = optionalExpense.get();
     		expense.setName(name);
     		expense.setVendor(vendor);
     		expense.setAmount(amount);
+    		expense.setDescription(description);
     		expRepo.save(expense);
     		return expense;
     	}

@@ -8,8 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jasekraft.pokebook.mvc.models.Expense;
 import com.jasekraft.pokebook.mvc.services.ExpenseService;
@@ -41,5 +43,28 @@ public class PokeController {
 		}
 	}
 	
+	@RequestMapping("/expense/{id}/edit")
+	public String editExpense(@PathVariable("id") long id,
+			Model model) {
+		Expense expense = expenseService.findExpense(id);
+		model.addAttribute("expense", expense);
+		return "/expense/edit.jsp";
+	}
+	
+	@RequestMapping("/update_expense")
+	public String updateExpense(@RequestParam("id") long id, 
+			@RequestParam("name") String name, 
+			@RequestParam("vendor") String vendor,
+			@RequestParam("amount") double amount,
+			@RequestParam("description") String description,
+			@Valid @ModelAttribute("expense") Expense expense, BindingResult result) {
+		if(result.hasErrors()) {
+			return "/expense/edit.jsp";
+		}
+		else {
+			expenseService.updateExpense(id, name, vendor, amount, description);
+			return "redirect:/";
+		}
+	}
 	
 }
